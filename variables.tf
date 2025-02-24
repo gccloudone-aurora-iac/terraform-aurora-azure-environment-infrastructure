@@ -228,7 +228,7 @@ variable "networking_ids" {
   type = object({
     dns_zones = object({
       azmk8s   = string
-      keyvault = string
+      keyvault = optional(string)
     })
     subnets = object({
       api_server     = string
