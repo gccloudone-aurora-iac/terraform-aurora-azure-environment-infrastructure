@@ -99,6 +99,16 @@ variable "node_os_upgrade" {
   }
 }
 
+#################
+### Custom CA ###
+#################
+
+variable "custom_ca" {
+  description = "Configure a custom Certificate Authority (CA) for the Cluster"
+  type        = string
+  default     = null
+}
+
 ##################
 ### Node Pools ###
 ##################

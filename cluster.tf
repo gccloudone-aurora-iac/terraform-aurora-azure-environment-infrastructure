@@ -93,6 +93,9 @@ module "cluster" {
   admin_group_object_ids       = var.cluster_admins
   linux_profile_public_ssh_key = var.cluster_linux_profile_ssh_key
 
+  # Custom CA
+  custom_ca = var.custom_ca
+
   # Networking
   private_cluster_enabled = true
   private_dns_zone_id     = var.networking_ids.dns_zones.azmk8s
