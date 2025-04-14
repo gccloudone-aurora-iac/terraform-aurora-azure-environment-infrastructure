@@ -3,7 +3,7 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 #
 resource "azurerm_resource_group" "aks" {
-  name     = module.azure_resource_prefixes.resource_group_prefix
+  name     = module.azure_resource_names.resource_group_name
   location = var.azure_resource_attributes.location
   tags     = local.tags
 
@@ -21,7 +21,7 @@ resource "azurerm_resource_group" "aks" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity
 #
 resource "azurerm_user_assigned_identity" "aks" {
-  name                = module.azure_resource_prefixes.managed_identity_prefix
+  name                = module.azure_resource_names.managed_identity_name
   resource_group_name = azurerm_resource_group.aks.name
   location            = var.azure_resource_attributes.location
   tags                = local.tags
@@ -33,7 +33,7 @@ resource "azurerm_user_assigned_identity" "aks" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity
 #
 resource "azurerm_user_assigned_identity" "aks_kubelet" {
-  name                = "${module.azure_resource_prefixes.managed_identity_prefix}-kubelet"
+  name                = "${module.azure_resource_names.managed_identity_name}-kubelet"
   resource_group_name = azurerm_resource_group.aks.name
   location            = var.azure_resource_attributes.location
   tags                = local.tags
@@ -73,11 +73,14 @@ resource "azurerm_role_assignment" "aks_msi_kubelet_operator" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 #
 module "cluster" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v1.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v2.0.0"
 
   azure_resource_attributes = var.azure_resource_attributes
-  resource_group_name       = azurerm_resource_group.aks.name
-  sku_tier                  = var.cluster_sku_tier
+  naming_convention         = var.naming_convention
+  user_defined              = var.user_defined
+
+  resource_group_name = azurerm_resource_group.aks.name
+  sku_tier            = var.cluster_sku_tier
 
   kubernetes_version         = var.kubernetes_version
   node_os_channel_upgrade    = var.node_os_upgrade.channel
@@ -99,7 +102,7 @@ module "cluster" {
   # Networking
   private_cluster_enabled = true
   private_dns_zone_id     = var.networking_ids.dns_zones.azmk8s
-  dns_prefix              = module.azure_resource_prefixes.kubernetes_service_prefix
+  dns_prefix              = module.azure_resource_names.kubernetes_service_name
   api_server = {
     subnet_id                = var.networking_ids.subnets.api_server
     vnet_integration_enabled = true

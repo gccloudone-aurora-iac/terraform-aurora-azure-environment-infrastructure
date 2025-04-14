@@ -24,10 +24,10 @@ Examples for this module along with various configurations can be found in the [
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azure_resource_prefixes"></a> [azure\_resource\_prefixes](#module\_azure\_resource\_prefixes) | git::https://github.com/gccloudone-aurora-iac/terraform-aurora-azure-resource-prefixes.git | v1.0.0 |
-| <a name="module_cluster"></a> [cluster](#module\_cluster) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git | v1.0.0 |
-| <a name="module_enc_key_vault"></a> [enc\_key\_vault](#module\_enc\_key\_vault) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git | v1.0.0 |
-| <a name="module_node_pool"></a> [node\_pool](#module\_node\_pool) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster-nodepool.git | v1.0.0 |
+| <a name="module_azure_resource_names"></a> [azure\_resource\_names](#module\_azure\_resource\_names) | git::https://github.com/gccloudone-aurora-iac/terraform-aurora-azure-resource-names.git | v2.0.0 |
+| <a name="module_cluster"></a> [cluster](#module\_cluster) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git | v2.0.0 |
+| <a name="module_enc_key_vault"></a> [enc\_key\_vault](#module\_enc\_key\_vault) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git | v2.0.0 |
+| <a name="module_node_pool"></a> [node\_pool](#module\_node\_pool) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster-nodepool.git | v2.0.0 |
 
 ## Inputs
 

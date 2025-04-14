@@ -94,11 +94,16 @@ resource "azurerm_subnet" "apiserver" {
 module "infrastructure" {
   source = "../"
 
+  naming_convention = "gc"
+  user_defined      = "example"
+
   azure_resource_attributes = {
-    project     = "aur"
-    environment = "dev"
-    location    = "Canada Central"
-    instance    = 0
+    department_code = "Gc"
+    owner           = "ABC"
+    project         = "aur"
+    environment     = "dev"
+    location        = "Canada Central"
+    instance        = 0
   }
 
   kubernetes_version = "1.23.12"

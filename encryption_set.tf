@@ -4,7 +4,7 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 #
 resource "azurerm_resource_group" "secrets" {
-  name     = "${module.azure_resource_prefixes.resource_group_prefix}-secrets"
+  name     = "${module.azure_resource_names.resource_group_name}-secrets"
   location = var.azure_resource_attributes.location
   tags     = local.tags
 
@@ -18,11 +18,13 @@ resource "azurerm_resource_group" "secrets" {
 # https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git
 #
 module "cluster_key_vault" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git?ref=v1.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git?ref=v2.0.0"
 
   azure_resource_attributes = var.azure_resource_attributes
+  naming_convention         = var.naming_convention
   user_defined              = "cluster"
-  resource_group_name       = azurerm_resource_group.secrets.name
+
+  resource_group_name = azurerm_resource_group.secrets.name
 
   sku_name                   = "premium"
   purge_protection_enabled   = true
@@ -45,7 +47,7 @@ module "cluster_key_vault" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_key
 #
 resource "azurerm_key_vault_key" "disk_encryption" {
-  name         = "${module.azure_resource_prefixes.prefix}-disk-encryption"
+  name         = "${module.azure_resource_names.name}-disk-encryption"
   key_vault_id = module.cluster_key_vault.id
 
   # Use an HSM-backed key
@@ -75,7 +77,7 @@ resource "azurerm_key_vault_key" "disk_encryption" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/disk_encryption_set
 #
 resource "azurerm_disk_encryption_set" "disk_encryption" {
-  name                = module.azure_resource_prefixes.disk_encryption_set_prefix
+  name                = module.azure_resource_names.disk_encryption_set_name
   resource_group_name = azurerm_resource_group.secrets.name
   location            = var.azure_resource_attributes.location
   key_vault_key_id    = azurerm_key_vault_key.disk_encryption.id
