@@ -22,7 +22,7 @@ module "cluster_key_vault" {
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention
-  user_defined              = "CLUSTER"
+  user_defined              = "AKS"
 
   resource_group_name = azurerm_resource_group.secrets.name
 
