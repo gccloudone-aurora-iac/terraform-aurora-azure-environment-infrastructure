@@ -4,7 +4,7 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 #
 resource "azurerm_resource_group" "secrets" {
-  name     = "${module.azure_resource_names.resource_group_name}-secrets"
+  name     = "${module.azure_resource_names.resource_group_secrets_name}"
   location = var.azure_resource_attributes.location
   tags     = local.tags
 
