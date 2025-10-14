@@ -68,9 +68,15 @@ variable "cluster_dns_service_ip" {
 ###################
 
 variable "cluster_sku_tier" {
-  description = "SKU Tier for the cluster (\"Standard\" is preferred)"
+  description = "SKU Tier for the cluster (\"Premium\" is preferred)"
   type        = string
-  default     = "Standard"
+  default     = "Premium"
+}
+
+variable "cluster_support_plan" {
+  description = "Specifies the support plan which should be used for this Kubernetes Cluster. Possible values are KubernetesOfficial and AKSLongTermSupport. Defaults to KubernetesOfficial"
+  type        = string
+  default     = "KubernetesOfficial"
 }
 
 variable "cluster_admins" {
