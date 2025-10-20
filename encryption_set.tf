@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "secrets" {
 # https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git
 #
 module "cluster_key_vault" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git?ref=v2.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git?ref=v2.0.1"
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention

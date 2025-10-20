@@ -25,9 +25,9 @@ Examples for this module along with various configurations can be found in the [
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_azure_resource_names"></a> [azure\_resource\_names](#module\_azure\_resource\_names) | git::https://github.com/gccloudone-aurora-iac/terraform-aurora-azure-resource-names.git | v2.0.0 |
-| <a name="module_cluster"></a> [cluster](#module\_cluster) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git | v2.0.0 |
-| <a name="module_enc_key_vault"></a> [enc\_key\_vault](#module\_enc\_key\_vault) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git | v2.0.0 |
-| <a name="module_node_pool"></a> [node\_pool](#module\_node\_pool) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster-nodepool.git | v2.0.0 |
+| <a name="module_cluster"></a> [cluster](#module\_cluster) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git | v2.0.2 |
+| <a name="module_enc_key_vault"></a> [enc\_key\_vault](#module\_enc\_key\_vault) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-key-vault.git | v2.0.1 |
+| <a name="module_node_pool"></a> [node\_pool](#module\_node\_pool) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster-nodepool.git | v2.0.1 |
 
 ## Inputs
 
@@ -78,3 +78,4 @@ Examples for this module along with various configurations can be found in the [
 | ---------- | ------- | --------------------------------------------------------------------------------------------------------- |
 | 2025-01-25 | v1.0.0  | Initial commit                                                                                            |
 | 2026-10-14 | v2.0.1  | Add `cluster_support_plan` variable and change default for `cluster_sku_tier` to `Premium`.               |
+| 2025-10-20 | v2.0.2  | Pin minimum version of azurerm to 4.49.0                                                                  |
