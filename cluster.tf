@@ -73,7 +73,7 @@ resource "azurerm_role_assignment" "aks_msi_kubelet_operator" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 #
 module "cluster" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v2.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v2.0.1"
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention
@@ -81,6 +81,7 @@ module "cluster" {
 
   resource_group_name = azurerm_resource_group.aks.name
   sku_tier            = var.cluster_sku_tier
+  support_plan        = var.cluster_support_plan
 
   kubernetes_version         = var.kubernetes_version
   node_os_channel_upgrade    = var.node_os_upgrade.channel
