@@ -79,4 +79,5 @@ Examples for this module along with various configurations can be found in the [
 | 2025-01-25 | v1.0.0  | Initial commit                                                                                            |
 | 2026-10-14 | v2.0.1  | Add `cluster_support_plan` variable and change default for `cluster_sku_tier` to `Premium`.               |
 | 2025-10-20 | v2.0.2  | Pin minimum version of azurerm to 4.49.0                                                                  |
-| 2025-10-20 | v2.0.3  | Add back VNET Network Integration since not out of preview                                                |
+| 2025-10-20 | v2.0.3  | Add back VNET Network Integration since now out of preview                                                |
+| 2025-10-20 | v2.0.4  | Add option to disable VNET Network Integration                                                            |

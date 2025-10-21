@@ -128,6 +128,12 @@ variable "node_os_upgrade" {
   }
 }
 
+variable "vnet_integration_enabled" {
+  description = "Enable or disable Virtual Network Integration."
+  type        = bool
+  default     = false
+}
+
 #################
 ### Custom CA ###
 #################

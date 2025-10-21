@@ -106,7 +106,7 @@ module "cluster" {
   dns_prefix              = module.azure_resource_names.kubernetes_service_name
   api_server = {
     subnet_id                = var.networking_ids.subnets.api_server
-    vnet_integration_enabled = true
+    vnet_integration_enabled = var.vnet_integration_enabled
   }
 
   network_plugin = "none"
