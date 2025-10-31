@@ -91,6 +91,18 @@ variable "cluster_linux_profile_ssh_key" {
   default     = null
 }
 
+variable "cluster_diag_setting" {
+  description = "Manages the diagnostic settings for a Kubernetes cluster."
+  type = map(object({
+    log_analytics_workspace_id     = optional(string)
+    log_analytics_destination_type = optional(string)
+    storage_account_id             = optional(string)
+    enabled_log_categories         = optional(list(string), ["kube-apiserver", "kube-controller-manager", "cluster-autoscaler"])
+    enable_all_metrics             = optional(bool, false)
+  }))
+  default = null
+}
+
 variable "kubernetes_version" {
   description = "The Kubernetes version used by the control plane & the default version for the agent nodes."
   type        = string
