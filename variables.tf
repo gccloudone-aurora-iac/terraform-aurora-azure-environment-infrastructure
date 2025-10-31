@@ -146,8 +146,6 @@ variable "vnet_integration_enabled" {
   default     = false
 }
 
-
-
 #################
 ### Custom CA ###
 #################
