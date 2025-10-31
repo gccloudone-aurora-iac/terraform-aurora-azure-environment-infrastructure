@@ -86,6 +86,7 @@ module "cluster" {
   kubernetes_version         = var.kubernetes_version
   node_os_channel_upgrade    = var.node_os_upgrade.channel
   maintenance_window_node_os = var.node_os_upgrade.maintenance_window
+  diag_settings              = var.cluster_diag_settings
 
   # Identity / RBAC
   user_assigned_identity_ids = [azurerm_user_assigned_identity.aks.id]
