@@ -68,9 +68,9 @@ variable "cluster_dns_service_ip" {
 ###################
 
 variable "cluster_sku_tier" {
-  description = "SKU Tier for the cluster (\"Premium\" is preferred)"
+  description = "SKU Tier for the cluster (\"Standard\" is preferred)"
   type        = string
-  default     = "Premium"
+  default     = "Standard"
 }
 
 variable "cluster_support_plan" {
