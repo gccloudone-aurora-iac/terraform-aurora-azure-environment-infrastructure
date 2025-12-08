@@ -108,3 +108,4 @@ Examples for this module along with various configurations can be found in the [
 | 2025-10-20 | v2.0.4  | Add option to disable VNET Network Integration                                                            |
 | 2025-10-31 | v2.0.5  | Adds the `cluster_diag_setting` variable to configure the cluster's diagnostic setting                    |
 | 2025-10-28 | v2.0.6  | Change default for `cluster_sku_tier` to `Standard`                                                       |
+| 2025-12-08 | v2.0.7  | Added support for `os_sku` to node pools.                                                                 |

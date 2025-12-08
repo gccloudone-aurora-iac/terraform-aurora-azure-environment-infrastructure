@@ -9,7 +9,7 @@
 module "node_pool" {
   for_each = { for nodepool_name, nodepool in local.node_pools : nodepool_name => nodepool if nodepool_name != "system1" && nodepool_name != "system" }
 
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster-nodepool.git?ref=v2.0.1"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster-nodepool.git?ref=v2.0.2"
 
   name                  = each.key
   kubernetes_cluster_id = module.cluster.kubernetes_cluster_id
@@ -33,6 +33,7 @@ module "node_pool" {
   enable_host_encryption = each.value.enable_host_encryption
   os_disk_size_gb        = each.value.os_disk_size_gb
   os_disk_type           = each.value.os_disk_type
+  os_sku                 = each.value.os_sku
   os_type                = each.value.os_type
 
   # Network configuration
