@@ -175,6 +175,7 @@ variable "node_pools" {
       enable_host_encryption = optional(bool, true)
       os_disk_size_gb        = optional(number, 256)
       os_disk_type           = optional(string, "Managed")
+      os_sku                 = optional(string, "Ubuntu")
       os_type                = optional(string, "Linux")
       vm_priority            = optional(string, "Regular")
       eviction_policy        = optional(string, "Delete")
@@ -208,6 +209,7 @@ variable "node_pools" {
       enable_host_encryption = false
       os_disk_size_gb        = 256
       os_disk_type           = "Managed"
+      os_sku                 = "Ubuntu"
       os_type                = "Linux"
       vnet_subnet_id         = ""
       enable_auto_scaling    = false
@@ -231,6 +233,7 @@ variable "node_pools" {
       enable_host_encryption = false
       os_disk_size_gb        = 256
       os_disk_type           = "Managed"
+      os_sku                 = "Ubuntu"
       os_type                = "Linux"
       vnet_subnet_id         = ""
       enable_auto_scaling    = false
@@ -254,6 +257,7 @@ variable "node_pools" {
       enable_host_encryption = false
       os_disk_size_gb        = 256
       os_disk_type           = "Managed"
+      os_sku                 = "Ubuntu"
       os_type                = "Linux"
       vnet_subnet_id         = ""
       enable_auto_scaling    = false
