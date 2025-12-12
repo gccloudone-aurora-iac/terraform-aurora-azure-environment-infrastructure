@@ -73,7 +73,7 @@ resource "azurerm_role_assignment" "aks_msi_kubelet_operator" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 #
 module "cluster" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v2.0.5"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=feature/enable-workload-identity"
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention
