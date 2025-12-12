@@ -297,27 +297,3 @@ variable "networking_ids" {
     })
   })
 }
-
-/* ##############
-### Addons ###
-##############
-
-variable "oidc_issuer" {
-  description = "Enable or Disable the OIDC issuer URL and specifies whether Azure AD Workload Identity should be enabled for the Cluster"
-  type = object({
-    enabled                   = bool
-    workload_identity_enabled = optional(bool, false)
-  })
-  default = {
-    enabled                   = true
-    workload_identity_enabled = true
-  }
-
-  validation {
-    condition = (
-      !(var.oidc_issuer.workload_identity_enabled && var.oidc_issuer.enabled == false)
-    )
-
-    error_message = "To enable Azure AD Workload Identity oidc_issuer_enabled must be set to true."
-  }
-} */
