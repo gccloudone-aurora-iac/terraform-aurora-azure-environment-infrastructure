@@ -110,3 +110,4 @@ Examples for this module along with various configurations can be found in the [
 | 2025-10-28 | v2.0.6  | Change default for `cluster_sku_tier` to `Standard`                                                       |
 | 2025-12-08 | v2.0.7  | Added support for `os_sku` to node pools.                                                                 |
 | 2025-12-12 | v2.0.8  | Enabled workload identity by default.                                                                     |
+| 2025-12-24 | v2.0.9  | Added output for `oidc_issuer_url` to support federated identity credential setup                         |                                                                   |
