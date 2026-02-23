@@ -229,8 +229,7 @@ variable "network_data_plane" {
   validation {
     condition = (
       var.network_data_plane != "cilium" ||
-      var.network_plugin_mode == "overlay" ||
-      var.pod_subnet_id != null
+      var.network_plugin_mode == "overlay"
     )
     error_message = "When network_data_plane is 'cilium', either network_plugin_mode='overlay' or pod_subnet_id must be set."
   }
