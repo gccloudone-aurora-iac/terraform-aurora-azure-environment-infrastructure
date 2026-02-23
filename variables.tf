@@ -146,6 +146,119 @@ variable "vnet_integration_enabled" {
   default     = false
 }
 
+variable "network_plugin" {
+  description = "AKS network plugin"
+  type        = string
+  default     = "azure"
+
+  validation {
+    condition     = contains(["azure", "kubenet", "none"], var.network_plugin)
+    error_message = "network_plugin must be one of: azure, kubenet, none."
+  }
+}
+
+variable "network_policy" {
+  description = "AKS network policy"
+  type        = string
+  default     = "cilium"
+  nullable    = true
+
+  validation {
+    condition = (
+      var.network_policy == null ||
+      contains(["calico", "azure", "cilium"], var.network_policy)
+    )
+    error_message = "network_policy must be one of: calico, azure, cilium, or null."
+  }
+
+  validation {
+    condition = (
+      var.network_policy != "azure" ||
+      var.network_plugin == "azure"
+    )
+    error_message = "When network_policy is 'azure', network_plugin must be 'azure'."
+  }
+}
+
+variable "network_mode" {
+  description = "AKS network mode"
+  type        = string
+  default     = null
+  nullable    = true
+
+  validation {
+    condition = (
+      var.network_mode == null ||
+      contains(["bridge", "transparent"], var.network_mode)
+    )
+    error_message = "network_mode must be bridge, transparent, or null."
+  }
+
+  validation {
+    condition = (
+      var.network_mode == null ||
+      var.network_plugin == "azure"
+    )
+    error_message = "network_mode can only be set when network_plugin is 'azure'."
+  }
+}
+
+variable "network_data_plane" {
+  description = "AKS network data plane"
+  type        = string
+  default     = "cilium"
+  nullable    = true
+
+  validation {
+    condition = (
+      var.network_data_plane == null ||
+      contains(["azure", "cilium"], var.network_data_plane)
+    )
+    error_message = "network_data_plane must be azure, cilium, or null."
+  }
+
+  validation {
+    condition = (
+      var.network_data_plane != "cilium" ||
+      var.network_plugin == "azure"
+    )
+    error_message = "When network_data_plane is 'cilium', network_plugin must be 'azure'."
+  }
+
+  # cilium requires overlay or pod subnet
+  validation {
+    condition = (
+      var.network_data_plane != "cilium" ||
+      var.network_plugin_mode == "overlay" ||
+      var.pod_subnet_id != null
+    )
+    error_message = "When network_data_plane is 'cilium', either network_plugin_mode='overlay' or pod_subnet_id must be set."
+  }
+}
+
+variable "network_plugin_mode" {
+  description = "AKS network plugin mode"
+  type        = string
+  default     = null
+  nullable    = true
+
+  validation {
+    condition = (
+      var.network_plugin_mode == null ||
+      var.network_plugin_mode == "overlay"
+    )
+    error_message = "network_plugin_mode must be 'overlay' or null."
+  }
+
+  validation {
+    condition = (
+      var.network_plugin_mode == null ||
+      var.network_plugin == "azure"
+    )
+    error_message = "network_plugin_mode can only be set when network_plugin is 'azure'."
+  }
+}
+
 #################
 ### Custom CA ###
 #################
@@ -166,6 +279,7 @@ variable "node_pools" {
     object({
       vm_size                = optional(string, "Standard_D16s_v3")
       vnet_subnet_id         = string
+      pod_subnet_id          = optional(string, null)
       availability_zones     = optional(list(number), [1, 2, 3])
       node_count             = optional(number, 3)
       kubernetes_version     = optional(string, null)
@@ -212,6 +326,7 @@ variable "node_pools" {
       os_sku                 = "Ubuntu"
       os_type                = "Linux"
       vnet_subnet_id         = ""
+      pod_subnet_id          = null
       enable_auto_scaling    = false
       upgrade_settings = {
         max_surge                     = "33%"
@@ -236,6 +351,7 @@ variable "node_pools" {
       os_sku                 = "Ubuntu"
       os_type                = "Linux"
       vnet_subnet_id         = ""
+      pod_subnet_id          = null
       enable_auto_scaling    = false
       upgrade_settings = {
         max_surge                     = "33%"
@@ -260,6 +376,7 @@ variable "node_pools" {
       os_sku                 = "Ubuntu"
       os_type                = "Linux"
       vnet_subnet_id         = ""
+      pod_subnet_id          = null
       enable_auto_scaling    = false
       upgrade_settings = {
         max_surge                     = "33%"

@@ -38,6 +38,7 @@ module "node_pool" {
 
   # Network configuration
   vnet_subnet_id = each.value.vnet_subnet_id
+  pod_subnet_id  = each.value.pod_subnet_id
 
   # Upgrade configuration
   upgrade_settings = {
