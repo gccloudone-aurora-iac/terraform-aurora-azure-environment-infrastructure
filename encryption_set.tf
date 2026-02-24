@@ -68,6 +68,15 @@ resource "azurerm_key_vault_key" "disk_encryption" {
     "wrapKey",
   ]
 
+  rotation_policy {
+    automatic {
+      time_before_expiry = "P182D"
+    }
+
+    expire_after         = "P365D"
+    notify_before_expiry = "P181D"
+  }
+
   depends_on = [
     azurerm_role_assignment.runner_manage_keys,
     module.cluster_key_vault
