@@ -69,7 +69,7 @@ resource "azurerm_key_vault_key" "disk_encryption" {
   ]
 
   depends_on = [
-    azurerm_key_vault_access_policy.runner_manage_keys,
+    azurerm_role_assignment.runner_manage_keys,
     module.cluster_key_vault
   ]
 }
