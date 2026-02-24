@@ -44,6 +44,8 @@ module "cluster_key_vault" {
   tags = local.tags
 }
 
+resource "time_static" "kv_key_expiry_base" {}
+
 # Manages a Key Vault Key.
 #
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_key
@@ -68,7 +70,7 @@ resource "azurerm_key_vault_key" "disk_encryption" {
     "wrapKey",
   ]
 
-  expiration_date = timeadd(timestamp(), "17520h")
+  expiration_date = timeadd(time_static.kv_key_expiry_base.rfc3339, "17520h")
 
   depends_on = [
     azurerm_role_assignment.runner_manage_keys,
