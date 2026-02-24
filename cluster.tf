@@ -45,6 +45,7 @@ resource "azurerm_user_assigned_identity" "aks_kubelet" {
 
 # Allow the cluster identity to create & delete an A record in the Private DNS Zone used.
 resource "azurerm_role_assignment" "aks_msi_dns_zone" {
+  count                = var.networking_ids.dns_zones.azmk8s != null ? 1 : 0
   role_definition_name = "Private DNS Zone Contributor"
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
   scope                = var.networking_ids.dns_zones.azmk8s
