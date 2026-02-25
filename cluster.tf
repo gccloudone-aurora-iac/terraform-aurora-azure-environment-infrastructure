@@ -132,7 +132,6 @@ module "cluster" {
   tags = local.tags
 
   depends_on = [
-    azurerm_role_assignment.aks_msi_dns_zone,
     azurerm_role_assignment.aks_msi_vnet,
     azurerm_role_assignment.aks_msi_kubelet_operator
   ]
