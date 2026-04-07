@@ -95,7 +95,7 @@ resource "azurerm_disk_encryption_set" "disk_encryption" {
 
 # Allow the runner to manage the key vault keys
 resource "azurerm_key_vault_access_policy" "runner_manage_keys" {
-  for_each     = toset(local.target_object_ids)
+  for_each     = toset(local.spn_object_ids)
   key_vault_id = module.cluster_key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = each.value
