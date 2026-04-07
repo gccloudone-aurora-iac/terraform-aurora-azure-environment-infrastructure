@@ -7,6 +7,8 @@ locals {
     }
   )
 
+  spn_object_ids = length(var.spn_object_ids) > 0 ? var.spn_object_ids : [data.azurerm_client_config.current.object_id]
+
   node_pool_zone_balance_fields = flatten([
     for nodepool_name, nodepool in var.node_pools :
     length(nodepool.availability_zones) > 0 ? [for zone in nodepool.availability_zones : {
