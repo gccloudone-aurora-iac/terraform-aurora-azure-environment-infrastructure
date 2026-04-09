@@ -101,9 +101,10 @@ resource "azurerm_disk_encryption_set" "disk_encryption" {
 
 # Allow the runner to manage the key vault keys
 resource "azurerm_role_assignment" "runner_manage_keys" {
+  for_each     = toset(local.spn_object_ids)
   scope = module.cluster_key_vault.id
   role_definition_name = "Key Vault Crypto Officer"
-  principal_id = data.azurerm_client_config.current.object_id
+  principal_id = each.value
 }
 
 # Allow the disk encryption set to access to the Key Vault key

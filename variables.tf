@@ -42,6 +42,14 @@ variable "tags" {
   default     = {}
 }
 
+##########################
+### Service Principals ###
+##########################
+
+variable spn_object_ids {
+  type = list(string)
+}
+
 ######################
 ### AKS Networking ###
 ######################
