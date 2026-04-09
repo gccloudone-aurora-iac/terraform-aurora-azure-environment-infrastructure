@@ -30,6 +30,8 @@ module "cluster_key_vault" {
   purge_protection_enabled   = true
   soft_delete_retention_days = 90
 
+  enable_rbac_authorization = true
+
   public_network_access_enabled = false
   private_endpoints = [
     {
@@ -41,6 +43,8 @@ module "cluster_key_vault" {
 
   tags = local.tags
 }
+
+resource "time_static" "kv_key_expiry_base" {}
 
 # Manages a Key Vault Key.
 #
@@ -66,8 +70,10 @@ resource "azurerm_key_vault_key" "disk_encryption" {
     "wrapKey",
   ]
 
+  expiration_date = timeadd(time_static.kv_key_expiry_base.rfc3339, "17520h")
+
   depends_on = [
-    azurerm_key_vault_access_policy.runner_manage_keys,
+    azurerm_role_assignment.runner_manage_keys,
     module.cluster_key_vault
   ]
 }
@@ -94,34 +100,18 @@ resource "azurerm_disk_encryption_set" "disk_encryption" {
 ############################
 
 # Allow the runner to manage the key vault keys
-resource "azurerm_key_vault_access_policy" "runner_manage_keys" {
+resource "azurerm_role_assignment" "runner_manage_keys" {
   for_each     = toset(local.spn_object_ids)
-  key_vault_id = module.cluster_key_vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = each.value
-
-  key_permissions = [
-    "Get",
-    "Create",
-    "Delete",
-    "Purge",
-    "Recover",
-    "Update",
-    "GetRotationPolicy"
-  ]
+  scope = module.cluster_key_vault.id
+  role_definition_name = "Key Vault Crypto Officer"
+  principal_id = each.value
 }
 
 # Allow the disk encryption set to access to the Key Vault key
-resource "azurerm_key_vault_access_policy" "disk_encryption" {
-  key_vault_id = module.cluster_key_vault.id
-  tenant_id    = azurerm_disk_encryption_set.disk_encryption.identity.0.tenant_id
-  object_id    = azurerm_disk_encryption_set.disk_encryption.identity.0.principal_id
-
-  key_permissions = [
-    "Get",
-    "UnwrapKey",
-    "WrapKey",
-  ]
+resource "azurerm_role_assignment" "disk_encryption" {
+  scope = module.cluster_key_vault.id
+  role_definition_name = "Key Vault Crypto Service Encryption User"
+  principal_id = azurerm_disk_encryption_set.disk_encryption.identity.0.principal_id
 }
 
 # Allow the cluster identity to read the encryption set

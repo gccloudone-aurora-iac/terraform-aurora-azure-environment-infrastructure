@@ -45,6 +45,7 @@ resource "azurerm_user_assigned_identity" "aks_kubelet" {
 
 # Allow the cluster identity to create & delete an A record in the Private DNS Zone used.
 resource "azurerm_role_assignment" "aks_msi_dns_zone" {
+  count                = var.create_private_dns_zone_role && var.networking_ids.dns_zones.azmk8s != null ? 1 : 0
   role_definition_name = "Private DNS Zone Contributor"
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
   scope                = var.networking_ids.dns_zones.azmk8s
@@ -73,7 +74,7 @@ resource "azurerm_role_assignment" "aks_msi_kubelet_operator" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 #
 module "cluster" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v2.0.6"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v2.0.7"
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention
@@ -110,9 +111,10 @@ module "cluster" {
     vnet_integration_enabled = var.vnet_integration_enabled
   }
 
-  network_plugin = "none"
-  network_policy = null
-  network_mode   = null
+  network_plugin      = var.network_plugin
+  network_policy      = var.network_policy
+  network_mode        = var.network_mode
+  network_data_plane  = var.network_data_plane
 
   service_cidr   = var.cluster_service_cidr
   dns_service_ip = var.cluster_dns_service_ip
@@ -130,7 +132,6 @@ module "cluster" {
   tags = local.tags
 
   depends_on = [
-    azurerm_role_assignment.aks_msi_dns_zone,
     azurerm_role_assignment.aks_msi_vnet,
     azurerm_role_assignment.aks_msi_kubelet_operator
   ]
