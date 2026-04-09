@@ -413,7 +413,7 @@ variable "networking_ids" {
   description = "The Azure resource IDs for DNS Zones and subnets."
   type = object({
     dns_zones = object({
-      azmk8s   = string
+      azmk8s   = optional(string)
       keyvault = optional(string)
     })
     subnets = object({
