@@ -371,3 +371,9 @@ variable "networking_ids" {
     })
   })
 }
+
+variable "create_private_dns_zone_role" {
+  description = "Set to true to create the private dns zone role."
+  type        = bool
+  default     = true
+}
