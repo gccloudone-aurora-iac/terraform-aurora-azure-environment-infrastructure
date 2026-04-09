@@ -154,15 +154,20 @@ variable "vnet_integration_enabled" {
   default     = false
 }
 
+###########
+### CNI ###
+###########
+
 variable "network_plugin" {
   description = "AKS network plugin"
   type        = string
   default     = "azure"
+}
 
-  validation {
-    condition     = contains(["azure", "kubenet", "none"], var.network_plugin)
-    error_message = "network_plugin must be one of: azure, kubenet, none."
-  }
+variable "network_mode" {
+  description = "AKS network mode"
+  type        = string
+  default     = "transparent"
 }
 
 variable "network_policy" {
@@ -174,40 +179,9 @@ variable "network_policy" {
   validation {
     condition = (
       var.network_policy == null ||
-      contains(["calico", "azure", "cilium"], var.network_policy)
+      contains(["azure", "cilium"], var.network_policy)
     )
-    error_message = "network_policy must be one of: calico, azure, cilium, or null."
-  }
-
-  validation {
-    condition = (
-      var.network_policy != "azure" ||
-      var.network_plugin == "azure"
-    )
-    error_message = "When network_policy is 'azure', network_plugin must be 'azure'."
-  }
-}
-
-variable "network_mode" {
-  description = "AKS network mode"
-  type        = string
-  default     = null
-  nullable    = true
-
-  validation {
-    condition = (
-      var.network_mode == null ||
-      contains(["bridge", "transparent"], var.network_mode)
-    )
-    error_message = "network_mode must be bridge, transparent, or null."
-  }
-
-  validation {
-    condition = (
-      var.network_mode == null ||
-      var.network_plugin == "azure"
-    )
-    error_message = "network_mode can only be set when network_plugin is 'azure'."
+    error_message = "network_policy must be one of: azure, cilium, or null."
   }
 }
 
@@ -223,47 +197,6 @@ variable "network_data_plane" {
       contains(["azure", "cilium"], var.network_data_plane)
     )
     error_message = "network_data_plane must be azure, cilium, or null."
-  }
-
-  validation {
-    condition = (
-      var.network_data_plane != "cilium" ||
-      var.network_plugin == "azure"
-    )
-    error_message = "When network_data_plane is 'cilium', network_plugin must be 'azure'."
-  }
-
-  # cilium requires overlay or pod subnet
-  validation {
-    condition = (
-      var.network_data_plane != "cilium" ||
-      var.network_plugin_mode == "overlay" ||
-      var.network_plugin_mode == null
-    )
-    error_message = "When network_data_plane is 'cilium', either network_plugin_mode='overlay' or pod_subnet_id must be set."
-  }
-}
-
-variable "network_plugin_mode" {
-  description = "AKS network plugin mode"
-  type        = string
-  default     = null
-  nullable    = true
-
-  validation {
-    condition = (
-      var.network_plugin_mode == null ||
-      var.network_plugin_mode == "overlay"
-    )
-    error_message = "network_plugin_mode must be 'overlay' or null."
-  }
-
-  validation {
-    condition = (
-      var.network_plugin_mode == null ||
-      var.network_plugin == "azure"
-    )
-    error_message = "network_plugin_mode can only be set when network_plugin is 'azure'."
   }
 }
 
