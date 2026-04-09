@@ -162,12 +162,28 @@ variable "network_plugin" {
   description = "AKS network plugin"
   type        = string
   default     = "azure"
+
+  validation {
+    condition = (
+      contains(["azure", "none"], var.network_plugin)
+    )
+    error_message = "network_plugin must be one of 'azure' or 'none'."
+  }
 }
 
 variable "network_mode" {
   description = "AKS network mode"
   type        = string
   default     = "transparent"
+  nullable    = true
+
+  validation {
+    condition = (
+      var.network_mode == null ||
+      contains(["bridge", "transparent"], var.network_mode)
+    )
+    error_message = "network_policy must be one of: bridge, transparent, or null."
+  }
 }
 
 variable "network_policy" {
