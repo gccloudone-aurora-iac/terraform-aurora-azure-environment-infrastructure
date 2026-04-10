@@ -377,3 +377,13 @@ variable "create_private_dns_zone_role" {
   type        = bool
   default     = true
 }
+
+##############
+### AddOns ###
+##############
+
+variable "azure_policy_enabled" {
+  description = "Flag to enable or disable Azure policy"
+  type        = bool
+  default     = false
+}

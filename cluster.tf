@@ -102,6 +102,9 @@ module "cluster" {
   # Custom CA
   custom_ca = var.custom_ca
 
+  # Azure Policy
+  azure_policy_enabled = var.azure_policy_enabled
+
   # Networking
   private_cluster_enabled = true
   private_dns_zone_id     = var.networking_ids.dns_zones.azmk8s
