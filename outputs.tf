@@ -84,7 +84,7 @@ output "user_assigned_identity_kubelet_principal_id" {
 
 output "oidc_issuer_url" {
   description = "The OIDC issuer URL that is associated with the cluster."
-  value = module.cluster.oidc_issuer_url
+  value       = module.cluster.oidc_issuer_url
 }
 
 ### Other ###

@@ -114,10 +114,10 @@ module "cluster" {
     vnet_integration_enabled = var.vnet_integration_enabled
   }
 
-  network_plugin      = var.network_plugin
-  network_policy      = var.network_policy
-  network_mode        = var.network_mode
-  network_data_plane  = var.network_data_plane
+  network_plugin     = var.network_plugin
+  network_policy     = var.network_policy
+  network_mode       = var.network_mode
+  network_data_plane = var.network_data_plane
 
   service_cidr   = var.cluster_service_cidr
   dns_service_ip = var.cluster_dns_service_ip

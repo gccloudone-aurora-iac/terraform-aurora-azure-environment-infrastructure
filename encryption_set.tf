@@ -4,7 +4,7 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 #
 resource "azurerm_resource_group" "secrets" {
-  name     = "${module.azure_resource_names.resource_group_secrets_name}"
+  name     = module.azure_resource_names.resource_group_secrets_name
   location = var.azure_resource_attributes.location
   tags     = local.tags
 
@@ -101,17 +101,17 @@ resource "azurerm_disk_encryption_set" "disk_encryption" {
 
 # Allow the runner to manage the key vault keys
 resource "azurerm_role_assignment" "runner_manage_keys" {
-  for_each     = toset(local.spn_object_ids)
-  scope = module.cluster_key_vault.id
+  for_each             = toset(local.spn_object_ids)
+  scope                = module.cluster_key_vault.id
   role_definition_name = "Key Vault Crypto Officer"
-  principal_id = each.value
+  principal_id         = each.value
 }
 
 # Allow the disk encryption set to access to the Key Vault key
 resource "azurerm_role_assignment" "disk_encryption" {
-  scope = module.cluster_key_vault.id
+  scope                = module.cluster_key_vault.id
   role_definition_name = "Key Vault Crypto Service Encryption User"
-  principal_id = azurerm_disk_encryption_set.disk_encryption.identity.0.principal_id
+  principal_id         = azurerm_disk_encryption_set.disk_encryption.identity.0.principal_id
 }
 
 # Allow the cluster identity to read the encryption set
