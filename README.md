@@ -1,6 +1,6 @@
-# terraform-azurerm-environment-infrastructure
+# terraform-azurerm-azure-environment-infrastructure
 
-This module deploys the Azure infrastructure required for a Cloud Native Environment within the Statistics Canada Azure Enterprise cloud environment.
+This module deploys the Azure infrastructure required for an Aurora Environment.
 
 ## Usage
 
