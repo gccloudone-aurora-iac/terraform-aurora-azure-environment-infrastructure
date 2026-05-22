@@ -100,7 +100,7 @@ module "cluster" {
   linux_profile_public_ssh_key = var.cluster_linux_profile_ssh_key
 
   # Custom CA
-  custom_ca = var.custom_ca
+  custom_ca_trust_certificates_base64 = var.custom_ca_trust_certificates_base64
 
   # Azure Policy
   azure_policy_enabled = var.azure_policy_enabled
