@@ -74,7 +74,7 @@ resource "azurerm_role_assignment" "aks_msi_kubelet_operator" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 #
 module "cluster" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v2.0.7"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster.git?ref=v3.0.0"
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention
@@ -100,7 +100,7 @@ module "cluster" {
   linux_profile_public_ssh_key = var.cluster_linux_profile_ssh_key
 
   # Custom CA
-  custom_ca = var.custom_ca
+  custom_ca_trust_certificates_base64 = var.custom_ca_trust_certificates_base64
 
   # Azure Policy
   azure_policy_enabled = var.azure_policy_enabled
