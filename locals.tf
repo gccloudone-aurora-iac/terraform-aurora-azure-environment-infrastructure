@@ -18,8 +18,7 @@ locals {
       name               = nodepool_name
       availability_zones = []
     }]
-    ]
-  )
+  ])
 
   node_pool_zone_balance = {
     for pool in local.node_pool_zone_balance_fields :
@@ -31,5 +30,18 @@ locals {
     nodepool_name => nodepool.kubernetes_version != null ? nodepool : merge(nodepool, { kubernetes_version = var.kubernetes_version })
   }
 
-  system_node_pool = try(merge(local.node_pools["system"], { name = "system" }), merge(local.node_pools["system1"], { name = "system1" }))
+  # System-mode pools after zone expansion (e.g. ["system2"], or ["system1","system2","system3"]).
+  # Selected by mode so the zone number is never hardcoded.
+  system_pool_keys = sort([
+    for nodepool_name, nodepool in local.node_pools : nodepool_name
+    if try(nodepool.mode, "User") == "System"
+  ])
+
+  # Promote the first system-zone pool to be the cluster's default node pool.
+  system_default_key = local.system_pool_keys[0]
+
+  system_node_pool = merge(
+    local.node_pools[local.system_default_key],
+    { name = local.system_default_key }
+  )
 }

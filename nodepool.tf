@@ -7,7 +7,8 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
 #
 module "node_pool" {
-  for_each = { for nodepool_name, nodepool in local.node_pools : nodepool_name => nodepool if nodepool_name != "system1" && nodepool_name != "system" }
+  for_each = { for nodepool_name, nodepool in local.node_pools : nodepool_name => nodepool
+             if nodepool_name != local.system_default_key }
 
   source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-kubernetes-cluster-nodepool.git?ref=v2.0.2"
 
