@@ -26,3 +26,4 @@ jobs:
           release_type: ${{ steps.label.outputs.release_type }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branch: "main"
+
